@@ -1,159 +1,122 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { getBooks } from '../api';
-// import { useState, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
-// import { useTable, useSortBy, useGlobalFilter, usePagination, TableInstance } from 'react-table';
+import { Column, useSortBy, useTable } from 'react-table';
 
 const FetchBooks = async () => {
   return await getBooks();
 };
 
+interface DataDefinition {
+  "url": string;
+  "name": string;
+  "isbn": string;
+  "authors": string[];
+  "numberOfPages": number;
+  "publisher": string;
+  "country": string;
+  "mediaType": string;
+  "released": Date;
+  "characters": string[],
+  "povCharacters": string[];
+}
+
 const BookList: React.FC = () => {
 
-  const { data: books, error, isLoading } : {data: any, error: any, isLoading: boolean} = useQuery("books", FetchBooks);  
+  const { data: tableData, error, isLoading } : {data: any, error: any, isLoading: boolean} = useQuery("books", FetchBooks);  
+
+  const columns: Column<DataDefinition>[] = useMemo(() => [
+    {
+      Header: "Name",
+      accessor: "name"
+    },
+    {
+      Header: "Authors",
+      accessor: "authors"
+    },
+    {
+      Header: "isbn",
+      accessor: "isbn"
+    },
+    {
+      Header: "Number of pages",
+      accessor: "numberOfPages"
+    },
+    {
+      Header: "Publisher",
+      accessor: "publisher"
+    },
+    {
+      Header: "Country",
+      accessor: "country"
+    },
+    {
+      Header: "Media Type",
+      accessor: "mediaType"
+    },
+    {
+      Header: "Released",
+      accessor: Date
+    }
+  ],
+  []);
   
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow
+  } = useTable<DataDefinition>({ columns, data: tableData || [] });
+
   if (isLoading) return <div>Cargando libros...</div>;
   if (error) return <div>Ocurrió un error: {error.message}</div>;
 
   return (
-      <ul>
-        {books.map((book: any) => (
-          <li key={book.isbn}>{book.name}</li>
+    // apply the table props
+    <table {...getTableProps()}>
+      <thead>
+        {// Loop over the header rows
+        headerGroups.map(headerGroup => (
+          // Apply the header row props
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {// Loop over the headers in each row
+            headerGroup.headers.map(column => (
+              // Apply the header cell props
+              <th {...column.getHeaderProps()}>
+                {// Render the header
+                column.render('Header')}
+              </th>
+            ))}
+          </tr>
         ))}
-      </ul>
-    );
-  };
-
-
-  // const columns = React.useMemo(
-  //   () => [
-  //     {
-  //       Header: 'Title',
-  //       accessor: 'title',
-  //     },
-  //     {
-  //       Header: 'Author',
-  //       accessor: 'author',
-  //     },
-  //     {
-  //       Header: 'Genre',
-  //       accessor: 'genre',
-  //     },
-  //     {
-  //       Header: 'Published Date',
-  //       accessor: 'publishedDate',
-  //     },
-  //     {
-  //       Header: 'Actions',
-  //       accessor: 'id',
-  //       Cell: ({ value }: any) => (
-  //         <Link to={`/details/${value}`} className="text-blue-500 hover:underline">
-  //           View Details
-  //         </Link>
-  //       ),
-  //     },
-  //   ],
-  //   []
-  // );
-
-  // const {
-  //   getTableProps,
-  //   getTableBodyProps,
-  //   headerGroups,
-  //   rows,
-  //   prepareRow,
-  //   state: { globalFilter, pageIndex, pageSize }, 
-  //   setGlobalFilter,
-  //   gotoPage,
-  //   setPageSize,
-  // }: TableInstance<any> = useTable({ columns, data: books }, useGlobalFilter, useSortBy, usePagination);
-
-  // return (
-  //   <div>
-  //     <div className="mb-4 flex justify-between items-center">
-  //       <div>
-  //         <h2 className="text-2xl font-semibold">Book List</h2>
-  //       </div>
-  //       <div>
-  //         <input
-  //           type="text"
-  //           value={globalFilter || ''}
-  //           onChange={(e) => setGlobalFilter(e.target.value)}
-  //           placeholder="Search books..."
-  //           className="px-2 py-1 border rounded-md"
-  //         />
-  //       </div>
-  //     </div>
-  //     <table {...getTableProps()} className="min-w-full border border-collapse">
-  //       <thead>
-  //         {headerGroups.map((headerGroup) => (
-  //           <tr {...headerGroup.getHeaderGroupProps()}>
-  //             {headerGroup.headers.map((column) => (
-  //               <th
-  //                 {...column.getHeaderProps(column.getSortByToggleProps())}
-  //                 className="px-4 py-2 border-b cursor-pointer"
-  //               >
-  //                 {column.render('Header')}
-  //                 <span>{column.isSorted ? (column.isSortedDesc ? ' ↓' : ' ↑') : ''}</span>
-  //               </th>
-  //             ))}
-  //           </tr>
-  //         ))}
-  //       </thead>
-  //       <tbody {...getTableBodyProps()} className="divide-y">
-  //         {rows.map((row) => {
-  //           prepareRow(row);
-  //           return (
-  //             <tr {...row.getRowProps()} className="hover:bg-gray-100">
-  //               {row.cells.map((cell) => (
-  //                 <td {...cell.getCellProps()} className="px-4 py-2">
-  //                   {cell.render('Cell')}
-  //                 </td>
-  //               ))}
-  //             </tr>
-  //           );
-  //         })}
-  //       </tbody>
-  //     </table>
-  //     <div className="mt-4 flex justify-between items-center">
-  //       <div>
-  //         <span>
-  //           Page{' '}
-  //           <strong>
-  //             {pageIndex + 1} of {Math.ceil(books.length / pageSize)}
-  //           </strong>{' '}
-  //         </span>
-  //         <span>
-  //           | Go to page:{' '}
-  //           <input
-  //             type="number"
-  //             defaultValue={pageIndex + 1}
-  //             onChange={(e) => {
-  //               const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
-  //               setGlobalFilter('');
-  //               pageIndex !== pageNumber && pageIndex <= pageNumber && pageIndex >= 0 && gotoPage(pageNumber);
-  //             }}
-  //             className="w-16 px-2 py-1 border rounded-md"
-  //           />
-  //         </span>{' '}
-  //         <select
-  //           value={pageSize}
-  //           onChange={(e) => {
-  //             setPageSize(Number(e.target.value));
-  //           }}
-  //           className="px-2 py-1 border rounded-md"
-  //         >
-  //           {[10, 25, 50].map((pageSize) => (
-  //             <option key={pageSize} value={pageSize}>
-  //               Show {pageSize}
-  //             </option>
-  //           ))}
-  //         </select>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
+      </thead>
+      {/* Apply the table body props */}
+      <tbody {...getTableBodyProps()}>
+        {// Loop over the table rows
+        rows.map(row => {
+          // Prepare the row for display
+          prepareRow(row)
+          return (
+            // Apply the row props
+            <tr {...row.getRowProps()}>
+              {// Loop over the rows cells
+              row.cells.map(cell => {
+                // Apply the cell props
+                return (
+                  <td {...cell.getCellProps()}>
+                    {// Render the cell contents
+                    cell.render('Cell')}
+                  </td>
+                )
+              })}
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  )
+}
 
 
 export default BookList;
