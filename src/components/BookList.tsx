@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { getBooks } from '../api';
 import { Column } from 'react-table';
 import { ReactTable } from '../stories/ReactTable';
+import { Page } from '../stories/Page';
 
 const FetchBooks = async () => {
   return await getBooks();
@@ -22,6 +23,8 @@ interface DataDefinition {
   "povCharacters": string[];
 }
 
+
+
 const BookList: React.FC = () => {
 
   const { data: tableData, error, isLoading } : {data: any, error: any, isLoading: boolean} = useQuery("books", FetchBooks);  
@@ -32,10 +35,10 @@ const BookList: React.FC = () => {
       Header: "Name",
       accessor: "name"
     },
-    {
-      Header: "Authors",
-      accessor: "authors"
-    },
+    // {
+    //   Header: "Authors",
+    //   accessor: "authors"
+    // },
     {
       Header: "isbn",
       accessor: "isbn"
@@ -43,8 +46,8 @@ const BookList: React.FC = () => {
     {
       Header: "Number of pages",
       accessor: "numberOfPages",
-      Cell: row => (
-        <div className='text-right'>{row.value}</div>
+      Cell: (row: any) => (
+        <div className='text-center'>{row.value}</div>
       )
     },
     {
@@ -61,19 +64,22 @@ const BookList: React.FC = () => {
     },
     {
       Header: "Released",
-      accessor: Date
+      accessor: d => {
+        return new Date(d.released).toLocaleDateString('en-US')
+      },
+      Cell: (row: any) => (
+        <div className='text-right'>{row.value}</div>
+      )
     }
   ],
   []);
-  
-
-    if (isLoading) return <div>Cargando libros...</div>;
-    if (error) return <div>Ocurrió un error: {error.message}</div>;
 
   return (
     // apply the table props
     <>
-      <ReactTable data={tableData} columns={columns}></ReactTable>
+        <Page>
+            <ReactTable data={tableData} columns={columns} globalSearch={true} error={error} isLoading={isLoading}></ReactTable>
+        </Page>
     </>
   )
 }
