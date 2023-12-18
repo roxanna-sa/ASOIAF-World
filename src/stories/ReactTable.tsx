@@ -51,13 +51,14 @@ export const ReactTable = ({data: tableData, columns: columns, globalSearch: glo
      // @ts-ignore Typescript and React table bug
     setGlobalFilter,
   } = useTable<any>(
+    // @ts-ignore Typescript and React table bug
     { columns, data: tableData || [], defaultColumn: { Filter: SelectColumnFilter } }, useGlobalFilter, useFilters, useSortBy, usePagination );
 
   // @ts-ignore Typescript and React table bug
   const {globalFilter} = state
 
-  if (isLoading) return <div>Loading books...</div>;
   if (error) return <div>An error ocurred: {error.message}</div>;
+  if (isLoading) return <div>Loading books...</div>;
   if (tableData.length === 0) return <div>No available data</div>;
 
   return (

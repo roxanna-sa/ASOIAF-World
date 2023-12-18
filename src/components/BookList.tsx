@@ -1,13 +1,8 @@
-import React, { useMemo } from 'react';
-import { useQuery } from 'react-query';
+import React, { useEffect, useMemo, useState } from 'react';
 import { getBooks } from '../api';
 import { Column } from 'react-table';
 import { ReactTable } from '../stories/ReactTable';
 import { Page } from '../stories/Page';
-
-const FetchBooks = async () => {
-  return await getBooks();
-};
 
 interface DataDefinition {
   "url": string;
@@ -27,7 +22,24 @@ interface DataDefinition {
 
 const BookList: React.FC = () => {
 
-  const { data: tableData, error, isLoading } : {data: any, error: any, isLoading: boolean} = useQuery("books", FetchBooks);  
+  const [tableData, setTableData] = useState([]);
+  const [error, setError]         = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Initial load of books
+  useEffect(() => {
+    const loadBooks = async () => {
+      try {
+        const orderResult = await getBooks();
+        setTableData(orderResult);
+        setIsLoading(false);
+      } catch (error: any) {
+        setError(error);
+      }
+    }
+
+    loadBooks();
+  }, []);
 
   // Column defs.
   const columns: Column<DataDefinition>[] = useMemo(() => [
@@ -35,10 +47,10 @@ const BookList: React.FC = () => {
       Header: "Name",
       accessor: "name"
     },
-    // {
-    //   Header: "Authors",
-    //   accessor: "authors"
-    // },
+    {
+      Header: "Authors",
+      accessor: "authors"
+    },
     {
       Header: "isbn",
       accessor: "isbn"
