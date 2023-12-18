@@ -8,3 +8,19 @@ Se cambian por import para evitar "rayitas"
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+.svg-icon {
+  width: 2em;
+  height: 2em;
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+  fill: #03152c;
+}
+
+.svg-icon circle {
+  stroke: #a00a0a;
+  stroke-width: 1;
+}
