@@ -1,4 +1,5 @@
 import React from "react";
+import { TextInput } from "./TextInput";
 
 interface GlobalFilterProps {
   filter: string | undefined;
@@ -7,9 +8,14 @@ interface GlobalFilterProps {
 
 export const GlobalFilter: React.FC<GlobalFilterProps> = ({ filter, setFilter }) => {
   return (
-    <span>
-      Search: {' '}
-      <input value={filter || ''} onChange={(e) => setFilter(e.target.value)} />
+    <span className="flex items-center space-x-2"> 
+      <label htmlFor="search" className="font-bold">Search:</label>
+      <TextInput 
+        id="search"
+        value={filter || ''}
+        onChange={(e: any) => setFilter(e.target.value)}
+        placeHolder="Type your search..."
+        autoComplete="off" />
     </span>
   );
 };
