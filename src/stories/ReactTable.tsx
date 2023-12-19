@@ -2,6 +2,7 @@ import { useTable, useGlobalFilter, useSortBy, usePagination, useFilters} from '
 import { GlobalFilter } from './GlobalFilter';
 import { Button } from './Button';
 import { SelectColumnFilter, Filter } from '../utils/ReactTableFilter';
+import { ArrowUpCircleIcon, ArrowDownCircleIcon, ArrowRightCircleIcon } from '@heroicons/react/24/solid';
 
 interface TableProps {
   /**
@@ -34,7 +35,7 @@ interface TableProps {
 /**
  * Primary UI component for user interaction
  */
-export const ReactTable = ({data: tableData, columns: columns, globalSearch: globalSearch, showPagination: showPagination, isLoading: isLoading, error: error }: TableProps) => {
+export const ReactTable = ({ data, columns, globalSearch, showPagination, isLoading, error }: TableProps) => {
 
   const {
     getTableProps,
@@ -52,14 +53,14 @@ export const ReactTable = ({data: tableData, columns: columns, globalSearch: glo
     setGlobalFilter,
   } = useTable<any>(
     // @ts-ignore Typescript and React table bug
-    { columns, data: tableData || [], defaultColumn: { Filter: SelectColumnFilter } }, useGlobalFilter, useFilters, useSortBy, usePagination );
+    { columns, data: data || [], defaultColumn: { Filter: SelectColumnFilter } }, useGlobalFilter, useFilters, useSortBy, usePagination );
 
   // @ts-ignore Typescript and React table bug
   const {globalFilter} = state
 
   if (error) return <div>An error ocurred: {error.message}</div>;
   if (isLoading) return <div>Loading books...</div>;
-  if (tableData.length === 0) return <div>No available data</div>;
+  if (data.length === 0) return <div>No available data</div>;
 
   return (
     <>
@@ -73,13 +74,22 @@ export const ReactTable = ({data: tableData, columns: columns, globalSearch: glo
               {// Loop over the headers in each row
               headerGroup.headers.map((column: any) => (
                 // Apply the header cell props
-                <th {...column.getHeaderProps()}>
+                <th className='align-top' {...column.getHeaderProps()}>
                   <div {...column.getSortByToggleProps()}>
-                    {/* // Render the header */}
+                    { !column.disableSortBy && 
+                    (column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <ArrowDownCircleIcon className="tableSortIcon" />
+                        ) : (
+                          <ArrowUpCircleIcon className="tableSortIcon" />
+                        )
+                      ) : (
+                        <ArrowRightCircleIcon className="tableSortIcon" />
+                      ))
+                    }
+
+                    {/* // Render the header content */}
                     { column.render('Header')}
-                    <span>
-                      {column.isSorted ? (column.isSortedDesc ? '🔼': '🔽') : '⏹'}
-                    </span>
                   </div>
                   
                   <Filter column={column} />
@@ -100,9 +110,12 @@ export const ReactTable = ({data: tableData, columns: columns, globalSearch: glo
               <tr {...row.getRowProps()}>
                 {// Loop over the rows cells
                 row.cells.map((cell: any) => {
+                  // To avoid duplication of auto generated keys
+                  const key = `${cell.row.id}_${cell.column.id}`;
                   // Apply the cell props
                   return (
-                    <td {...cell.getCellProps()}>
+                    
+                    <td key={key} {...cell.getCellProps()}>
                       {// Render the cell contents
                       cell.render('Cell')}
                     </td>
