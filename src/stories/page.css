@@ -26,14 +26,6 @@
   color: #1ea7fd;
 }
 
-.storybook-page ul {
-  padding-left: 30px;
-  margin: 1em 0;
-}
-
-.storybook-page li {
-  margin-bottom: 8px;
-}
 
 .storybook-page .tip {
   display: inline-block;
