@@ -23,7 +23,7 @@ export const Page: React.FC = ({ children }: ContainerProps) => {
         onCreateAccount={() => setUser({ name: 'Roxana Soto' })}
       />
 
-      <section className="storybook-page bg-slate-100">
+      <section className="storybook-page bg-stone-100 rounded-xl">
         {children}
       </section>
     </article>
