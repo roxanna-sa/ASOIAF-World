@@ -1,7 +1,7 @@
 // import React from 'react';
 import './button.css';
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Is this the principal call to action on the page?
    */
@@ -22,6 +22,8 @@ interface ButtonProps {
    * Optional click handler
    */
   onClick?: () => void;
+
+  customClassName?: string;
 }
 
 /**
@@ -32,13 +34,14 @@ export const Button = ({
   size = 'medium',
   backgroundColor,
   label,
+  customClassName,
   ...props
 }: ButtonProps) => {
   const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
   return (
     <button
       type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
+      className={['storybook-button', `storybook-button--${size}`, mode, customClassName].join(' ')}
       style={{ backgroundColor }}
       {...props}
     >
