@@ -24,3 +24,8 @@ Se cambian por import para evitar "rayitas"
   stroke: #a00a0a;
   stroke-width: 1;
 }
+
+
+.tableSortIcon{
+  @apply h-5 w-5 text-gray-400 inline-block;    
+}
