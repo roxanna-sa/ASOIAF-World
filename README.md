@@ -14,6 +14,19 @@
 
 Este proyecto consiste en un sitio web dedicado a la lectura de libros, desarrollado utilizando las tecnologías React, Vite y TypeScript. La idea de la plataforma es que ofrezca a los usuarios una experiencia intuitiva y atractiva para explorar, leer y gestionar su biblioteca digital.
 
+El sitio permite:
+
+- Simulación de Login y Logout
+- Menú desplegable para navegar entre las páginas
+- Modo dark y light
+- Búsqueda manual
+- Filtrar por cada columna
+- Ordenar asc/desc cada columna utilizando el ícono circle-arrow
+- Visualización de detalles de cada libro
+- Añadir a favoritos
+- Llenar campos para subir un nuevo libro (maquetación) en la página "Add new book"
+
+
 ## 2. Librerías
 
 Las librerías que se utilizaron se enlistan aquí:
@@ -73,7 +86,7 @@ Al no haber imagenes de los libros en la API, desistí de la idea inicial que te
 
 ### Mejoras al diseño:
 
-Me habría encantado poder dedicar más tiempo a diseñar el sitio, me quedó en el tintero buscar iconos diferentes para el menú y haber hecho un header más atractivo  visualmente. Tampoco me quedó tiempo para implementar un footer que debería llevar información sobre la app. 
+Me habría encantado poder dedicar más tiempo a diseñar el sitio, me quedó en el tintero buscar iconos diferentes para el menú y haber hecho un header y footer más atractivo  visualmente. 
 Otra de las principales cosas que me queda pendiente es hacerlo responsive.
 
 ### Mejoras al proyecto:
@@ -87,14 +100,14 @@ Mejorar las stories. No alcancé a realizarlas todas ni de la mejor manera, ya q
 
 Si hubiera tenido más tiempo ¿Qué hubiera hecho diferente? :
 
-Me habría tomado un poco más de tiempo en el diseño de la app. Además de haber realizado cada componente con su respectiva storie y prueba unitaria; Al haberlas dejado para el final y, sin contemplar posibles contratiempos, me ha llegado la deadline encima y no me quedó tiempo para completar todos esos requisitos.
+Me habría tomado un poco más de tiempo en el diseño de la app. Además de haber realizado cada componente con su respectiva storie y prueba unitaria de forma simultánea; Al haberlas dejado para el final y, sin contemplar posibles contratiempos, me ha llegado la deadline encima y no me quedó tiempo para completar todos esos requisitos.
 
 
 ## 7. Issues
 
 En este proyecto enfrenté muchos desafíos, entre los que puedo destacar: usar Typescript junto con la última versión de React e implementar una tabla usando react-table. La mayoría de los problemas que me encontré fueron relacionados con el uso de la librería react-table y la poca compatibilidad de React v18 con algunas dependencias utilizadas, principalmente Jest. 
 
-Storybook también fue un contrincante difícil, ya que no tenía experiencia previa con esta herramienta y me di cuenta muy tarde que lo mejor habría sido crear cada componente con su respectiva storie en vez de dejarlas hasta el final.
+Storybook también fue un contrincante difícil, ya que no tenía experiencia previa con esta herramienta y me di cuenta ya con el proyecto avanzado que lo mejor habría sido crear cada componente con su respectiva storie en vez de dejarlas hasta el final.
 
 De todas formas, destaco que este proyecto me abrió un mundo de nuevas posibilidades con librerías y herramientas nuevas y entrego muy satisfecha de haber podido dar lo mejor de mi en esta semana de desarrollo. 
 
