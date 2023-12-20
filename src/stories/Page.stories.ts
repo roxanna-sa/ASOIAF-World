@@ -7,9 +7,10 @@ const meta = {
   title: 'Reading book club/Page',
   component: Page,
   parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
+    
     layout: 'fullscreen',
   },
+  tags: ['autodocs'],
 } satisfies Meta<typeof Page>;
 
 export default meta;
