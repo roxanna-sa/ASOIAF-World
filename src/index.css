@@ -1,5 +1,4 @@
 /*
-Se cambian por import para evitar "rayitas"
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,11 +16,11 @@ Se cambian por import para evitar "rayitas"
 .svg-icon path,
 .svg-icon polygon,
 .svg-icon rect {
-  fill: #03152c;
+  fill: #ec8641;
 }
 
 .svg-icon circle {
-  stroke: #a00a0a;
+  stroke: #eb7628;
   stroke-width: 1;
 }
 
@@ -29,3 +28,5 @@ Se cambian por import para evitar "rayitas"
 .tableSortIcon{
   @apply h-5 w-5 text-gray-400 inline-block;    
 }
+
+

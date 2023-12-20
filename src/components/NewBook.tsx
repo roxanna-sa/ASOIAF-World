@@ -32,47 +32,95 @@ const NewBook: React.FC = () => {
 
       return errors;
     };
+    
 
-  const formik = useFormik({
-    initialValues: {
-      title: '',
-      author: '',
-      genre: '',
-      releaseDate: '',
-      synopsis: '',
-    },
-    validate,
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
-
-
-  return (
-    <Page>
-      <h3>Add new book</h3>
-      <form onSubmit={formik.handleSubmit}>
-
-        <label htmlFor="title">Title</label>
-        <TextInput id="title" type="text" onChange={formik.handleChange} value={formik.values.title} onBlur={formik.handleBlur} ></TextInput>
-        {formik.touched.title && formik.errors.title ? <p>{formik.errors.title}</p> : null}
-
-        <label htmlFor="author">Author</label>
-        <TextInput id="author" type="text" onChange={formik.handleChange} value={formik.values.author} onBlur={formik.handleBlur} ></TextInput>
-
-        <label htmlFor="genre">Genre</label>
-        <TextInput id="genre" type="text" onChange={formik.handleChange} value={formik.values.genre} onBlur={formik.handleBlur} ></TextInput>
-
-        <label htmlFor="releaseDate">Release date</label>
-        <TextInput id="releaseDate" type="date" onChange={formik.handleChange} value={formik.values.releaseDate} onBlur={formik.handleBlur} ></TextInput>
-
-        <label htmlFor="synposis">Synposis</label>
-        <textarea id="synposis" onChange={formik.handleChange} value={formik.values.synopsis} onBlur={formik.handleBlur} ></textarea>
-
-        <Button label="submit" type="submit"></Button>
-      </form>
-    </Page>
-  );
-}
-
-export default NewBook;
+    const formik = useFormik({
+      initialValues: {
+        title: '',
+        author: '',
+        genre: '',
+        releaseDate: '',
+        synopsis: '',
+      },
+      validate,
+      onSubmit: values => {
+        alert(JSON.stringify(values, null, 2));
+      },
+    });
+  
+    return (
+      <Page>
+        <h3 className="text-2xl font-bold mb-4">Add New Book</h3>
+        <form onSubmit={formik.handleSubmit} className="max-w-md mx-auto">
+  
+          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mt-4">
+            Title
+          </label>
+          <TextInput
+        
+            id="title"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.title}
+            onBlur={formik.handleBlur}
+            className={`mt-1 p-2 border rounded-md w-full ${formik.touched.title && formik.errors.title ? 'border-red-500' : ''}`}
+          />
+          {formik.touched.title && formik.errors.title ? (
+            <p className="text-red-500 text-sm">{formik.errors.title}</p>
+          ) : null}
+  
+          <label htmlFor="author" className="block text-sm font-medium text-gray-700 mt-4">
+            Author
+          </label>
+          <TextInput
+            id="author"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.author}
+            onBlur={formik.handleBlur}
+            className="mt-1 p-2 border rounded-md w-full"
+          />
+  
+          <label htmlFor="genre" className="block text-sm font-medium text-gray-700 mt-4">
+            Genre
+          </label>
+          <TextInput
+            id="genre"
+            type="text"
+            onChange={formik.handleChange}
+            value={formik.values.genre}
+            onBlur={formik.handleBlur}
+            className="mt-1 p-2 border rounded-md w-full"
+          />
+  
+          <label htmlFor="releaseDate" className="block text-sm font-medium text-gray-700 mt-4">
+            Release date
+          </label>
+          <TextInput
+            id="releaseDate"
+            type="date"
+            onChange={formik.handleChange}
+            value={formik.values.releaseDate}
+            onBlur={formik.handleBlur}
+            className="mt-1 p-2 border rounded-md w-full"
+          />
+  
+          <label htmlFor="synopsis" className="block text-sm font-medium text-gray-700 mt-4">
+            Synopsis
+          </label>
+          <textarea
+            id="synopsis"
+            onChange={formik.handleChange}
+            value={formik.values.synopsis}
+            onBlur={formik.handleBlur}
+            className="mt-1 p-2 border rounded-md w-full"
+          />
+  
+          <Button type="submit" customClassName="bg-orange-700 text-white" size="small" label="Submit" onChange={formik.submitForm}/>
+        </form>
+      </Page>
+    );
+  }
+  
+  export default NewBook;
+  

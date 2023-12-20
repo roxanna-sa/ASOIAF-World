@@ -1,14 +1,99 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Page } from "../stories/Page";
 import { getRequest } from "../api";
+import { ReactTable } from "../stories/ReactTable";
+import { Column } from "react-table";
+import { Button } from "../stories/Button";
+import BookDialog from "../stories/BookDialog";
+
+interface DataDefinition {
+  "url": string;
+  "name": string;
+  "isbn": string;
+  "authors": string[];
+  "numberOfPages": number;
+  "publisher": string;
+  "country": string;
+  "mediaType": string;
+  "released": Date;
+  "characters": string[],
+  "povCharacters": string[];
+}
 
 const Favourites: React.FC = () => {
 
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  
   const [favourites, setFavourites ] = useState<any[]>([]);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [books, setBooks] = useState<any[]>([]);
+
+  // Get details from book
+  const getDetails = (row: any ) => {
+    setSelectedBook(row);
+    setModalIsOpen(true);
+  }
+
+  // Column defs.
+  const columns: Column<DataDefinition>[] = useMemo(() => [
+    {
+      Header: "Name",
+      accessor: "name"
+    },
+    {
+      Header: "Authors",
+      accessor: "authors"
+    },
+    {
+      Header: "isbn",
+      accessor: "isbn"
+    },
+    {
+      Header: "Number of pages",
+      accessor: "numberOfPages",
+      Cell: (row: any) => (
+        <div className='text-center'>{row.value}</div>
+      )
+    },
+    {
+      Header: "Publisher",
+      accessor: "publisher"
+    },
+    {
+      Header: "Country",
+      accessor: "country"
+    },
+    {
+      Header: "Media Type",
+      accessor: "mediaType"
+    },
+    {
+      Header: "Released",
+      accessor: d => {
+        return new Date(d.released).toLocaleDateString('en-US')
+      },
+      Cell: (row: any) => (
+        <div className='text-right'>{row.value}</div>
+      ),
+      sortType: (a: any, b: any) => {
+        return new Date(b.values.Released).valueOf() - new Date(a.values.Released).valueOf();
+      }
+    },
+    {
+      Header: "Details",
+      accessor: d => {
+        return d.isbn;
+      },
+      Cell: (row: any) => (
+        <Button primary={true} label='View details' onClick={ () => getDetails(row.row.original) }></Button>
+      ),
+      disableFilters: true,
+      disableSortBy: true
+    }
+  ],
+  []);
 
   useEffect(() => {
     const loadFavouritesFromLocalStorage = () => {
@@ -72,13 +157,24 @@ const Favourites: React.FC = () => {
   );
 
   return (
+    <>
+      
+      <BookDialog isOpen={ modalIsOpen } setIsOpen={ setModalIsOpen } modalTitle='Book details' closeButtonText='Close details' >
+      { selectedBook && (
+        <>
+          <p>{ (selectedBook as any).name }</p> 
+          <p>{ (selectedBook as any).authors }</p> 
+          <p>{ (selectedBook as any).publisher }</p> 
+          <p>{ (selectedBook as any).country }</p> 
+        </>
+      )}
+    </BookDialog>
+
     <Page>
-      {/* <ul> */}
-        { books && books.map((book: any) => {
-          return (<p>{book.name}</p>)  
-        }) }
-      {/* </ul> */}
+      <h3 className="text-2xl font-bold mb-4">⭐ Favourites</h3>
+      <ReactTable data={books} columns={columns} globalSearch={true} error={error} isLoading={loading}></ReactTable>
     </Page>
+    </>
   );
 }
 

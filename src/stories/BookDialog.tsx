@@ -61,19 +61,21 @@ export const BookDialog = ({ isOpen, setIsOpen, modalTitle, closeButtonText, chi
                   <div className="mt-4">
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-orange-200 text-orange-700 px-4 py-2 text-sm font-medium hover:bg-orange-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
                       onClick={closeModal}
                     >
                       { closeButtonText ?? "Close" }
                     </button>
 
-                    <button
-                      type="button"
-                      className="float-right inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={addToFavourites}
-                    >
-                    ⭐ Add to favourites
-                    </button>
+                    { addToFavourites && 
+                      <button
+                        type="button"
+                        className="float-right inline-flex justify-center rounded-md border border-transparent bg-orange-200 text-orange-700 px-4 py-2 text-sm font-medium hover:bg-orange-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2"
+                        onClick={addToFavourites} >
+                      ⭐ Add to favourites
+                      </button>
+                    }
+                    
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

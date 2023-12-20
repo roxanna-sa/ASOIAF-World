@@ -23,7 +23,6 @@ interface DataDefinition {
 
 
 const BookList: React.FC = () => {
-
   //#region Favourites
   const [favourites, setFavourites ] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -45,14 +44,11 @@ const BookList: React.FC = () => {
 
   useEffect(() => {
     const backupFavourites = () => {
-      console.log("baking up: fav modified");
-      console.log("is loading?", loading);
       if (loading){
         return;
       }
       // Backup favourites in session
       localStorage.setItem('favourites', JSON.stringify(favourites));
-      console.log("fav saved?");
     }
 
     backupFavourites();
@@ -63,8 +59,6 @@ const BookList: React.FC = () => {
     if (book == null){
       return;
     }
-
-    console.log("favourites", favourites);
 
     // Check if book already exists
     if (favourites.some(x => x === book.url)) {
@@ -86,8 +80,6 @@ const BookList: React.FC = () => {
 
   // Get details from book
   const getDetails = (row: any ) => {
-    console.log("get details");
-    console.log(row);
     setSelectedBook(row);
     setModalIsOpen(true);
   }
@@ -169,20 +161,22 @@ const BookList: React.FC = () => {
   return (
     // apply the table props
     <>
-        <BookDialog isOpen={ modalIsOpen } setIsOpen={ setModalIsOpen } modalTitle='Book details' closeButtonText='Close details' addToFavourites={ () => addToFavourites(selectedBook) }>
-          { selectedBook && (
-            <>
-              <p>{ (selectedBook as any).name }</p> 
-              <p>{ (selectedBook as any).authors }</p> 
-              <p>{ (selectedBook as any).publisher }</p> 
-              <p>{ (selectedBook as any).country }</p> 
-            </>
-          )}
-        </BookDialog>
+      
+      <BookDialog isOpen={ modalIsOpen } setIsOpen={ setModalIsOpen } modalTitle='Book details' closeButtonText='Close details' addToFavourites={ () => addToFavourites(selectedBook) }>
+        { selectedBook && (
+          <>
+            <p>{ (selectedBook as any).name }</p> 
+            <p>{ (selectedBook as any).authors }</p> 
+            <p>{ (selectedBook as any).publisher }</p> 
+            <p>{ (selectedBook as any).country }</p> 
+          </>
+        )}
+      </BookDialog>
 
-        <Page>
-            <ReactTable data={tableData} columns={columns} globalSearch={true} error={error} isLoading={isLoading}></ReactTable>
-        </Page>
+      <Page>
+        <h3 className="text-2xl font-bold mb-4">Book list</h3>
+        <ReactTable data={tableData} columns={columns} globalSearch={true} error={error} isLoading={isLoading}></ReactTable>
+      </Page>
     </>
   )
 }
