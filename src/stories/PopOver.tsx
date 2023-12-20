@@ -42,8 +42,8 @@ export default function PopOver( { options}: {options: option[]} ) {
               <Popover.Panel className="absolute z-10 mt-3 w-screen max-w-sm px-4 sm:px-0 lg:max-w-3xl">
                 <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5 dark:shadow-orange-800">
                   <div className="relative grid gap-8 bg-white dark:bg-stone-800 text-black dark:text-white p-7 lg:grid-cols-2">
-                    {options.map((item) => (
-                      <Link className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50" to={item.href}>
+                    {options.map((item, index) => (
+                      <Link key={index} className="-m-3 flex items-center rounded-lg p-2 transition duration-150 ease-in-out hover:bg-gray-50 focus:outline-none focus-visible:ring focus-visible:ring-orange-500/50" to={item.href}>
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center text-white sm:h-12 sm:w-12">
                           <item.icon aria-hidden="true" />
                         </div>

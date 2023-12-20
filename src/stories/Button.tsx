@@ -1,4 +1,4 @@
-// import React from 'react';
+import React from 'react';
 import './button.css';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -41,7 +41,7 @@ export const Button = ({
   return (
     <button
       type="button"
-      className={['storybook-button dark:text-orange-500 text-orange-800', `storybook-button--${size} `, mode, customClassName].join(' ')}
+      className={['storybook-button dark:text-orange-200 text-orange-800', `storybook-button--${size} `, mode, customClassName].join(' ')}
       style={{ backgroundColor }}
       {...props}
     >
