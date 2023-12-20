@@ -80,6 +80,7 @@ const NewBook: React.FC = () => {
             onBlur={formik.handleBlur}
             className="mt-1 p-2 border rounded-md w-full"
           />
+          
   
           <label htmlFor="genre" className="block text-sm font-medium text-gray-700 mt-4">
             Genre
@@ -113,8 +114,12 @@ const NewBook: React.FC = () => {
             onChange={formik.handleChange}
             value={formik.values.synopsis}
             onBlur={formik.handleBlur}
-            className="mt-1 p-2 border rounded-md w-full"
+            className={`mt-1 p-2 border rounded-md w-full ${formik.touched.title && formik.errors.title ? 'border-red-500' : ''}`}
           />
+          {formik.touched.title && formik.errors.title ? (
+            <p className="text-red-500 text-sm">{formik.errors.title}</p>
+          ) : null}
+          
   
           <Button type="submit" customClassName="bg-orange-700 text-white" size="small" label="Submit" onChange={formik.submitForm}/>
         </form>

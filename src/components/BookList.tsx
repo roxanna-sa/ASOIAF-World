@@ -65,6 +65,7 @@ const BookList: React.FC = () => {
       alert('This book is already in your favourites 😃');
     } else {
       setFavourites([...favourites, book.url]);
+      alert('Book added to your favourites 📚!');
     }
   }
 
@@ -165,10 +166,15 @@ const BookList: React.FC = () => {
       <BookDialog isOpen={ modalIsOpen } setIsOpen={ setModalIsOpen } modalTitle='Book details' closeButtonText='Close details' addToFavourites={ () => addToFavourites(selectedBook) }>
         { selectedBook && (
           <>
-            <p>{ (selectedBook as any).name }</p> 
-            <p>{ (selectedBook as any).authors }</p> 
+            <p className="font-extrabold">{ (selectedBook as any).name }</p> 
+            <p className="font-semibold">{ (selectedBook as any).authors }</p> 
             <p>{ (selectedBook as any).publisher }</p> 
             <p>{ (selectedBook as any).country }</p> 
+            <p>Synopsis: Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto, 
+             commodi quasi incidunt nobis dolorum debitis voluptatum velit explicabo corporis laboriosam, in eum porro, similique 
+             optio sint iusto dicta iste magnam?
+            </p>
+            <p>4/5 ⭐</p>
           </>
         )}
       </BookDialog>
