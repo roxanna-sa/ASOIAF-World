@@ -36,7 +36,7 @@ const Favourites: React.FC = () => {
     setModalIsOpen(true);
   }
 
-  // Column defs.
+  // Column definitons.
   const columns: Column<DataDefinition>[] = useMemo(() => [
     {
       Header: "Name",
