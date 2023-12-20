@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom'; 
 import { Button } from './src/stories/Button';
@@ -18,3 +17,7 @@ describe('Button component', () => {
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });
+
+
+
+
