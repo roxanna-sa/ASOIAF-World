@@ -20,15 +20,18 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.1",
-    "react-table": "^7.8.0"
+    "react-table": "^7.8.0",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.6",
     "@babel/preset-react": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
     "@storybook/addon-essentials": "^7.6.5",
     "@storybook/addon-interactions": "^7.6.5",
     "@storybook/addon-links": "^7.6.5",
     "@storybook/addon-onboarding": "^1.0.10",
+    "@storybook/addon-postcss": "^2.0.0",
     "@storybook/blocks": "^7.6.5",
     "@storybook/react": "^7.6.5",
     "@storybook/react-vite": "^7.6.5",
