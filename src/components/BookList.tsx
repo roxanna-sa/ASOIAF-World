@@ -1,24 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getBooks } from '../api';
-import { Column } from 'react-table';
 import { ReactTable } from '../stories/ReactTable';
 import { Page } from '../stories/Page';
 import BookDialog from '../stories/BookDialog';
-import { Button } from '../stories/Button';
+import { ColumnDefinition } from '../utils/ReactTableColumns';
 
-interface DataDefinition {
-  "url": string;
-  "name": string;
-  "isbn": string;
-  "authors": string[];
-  "numberOfPages": number;
-  "publisher": string;
-  "country": string;
-  "mediaType": string;
-  "released": Date;
-  "characters": string[],
-  "povCharacters": string[];
-}
+
 
 
 
@@ -84,6 +71,8 @@ const BookList: React.FC = () => {
     setSelectedBook(row);
     setModalIsOpen(true);
   }
+  // Get column definition
+  const columns = ColumnDefinition(getDetails);
   
   // Initial load of books
   useEffect(() => {
@@ -100,67 +89,8 @@ const BookList: React.FC = () => {
     loadBooks();
   }, []);
 
-  // Column defs.
-  const columns: Column<DataDefinition>[] = useMemo(() => [
-    {
-      Header: "Name",
-      accessor: "name"
-    },
-    {
-      Header: "Authors",
-      accessor: "authors"
-    },
-    {
-      Header: "isbn",
-      accessor: "isbn"
-    },
-    {
-      Header: "Number of pages",
-      accessor: "numberOfPages",
-      Cell: (row: any) => (
-        <div className='text-center'>{row.value}</div>
-      )
-    },
-    {
-      Header: "Publisher",
-      accessor: "publisher"
-    },
-    {
-      Header: "Country",
-      accessor: "country"
-    },
-    {
-      Header: "Media Type",
-      accessor: "mediaType"
-    },
-    {
-      Header: "Released",
-      accessor: d => {
-        return new Date(d.released).toLocaleDateString('en-US')
-      },
-      Cell: (row: any) => (
-        <div className='text-right'>{row.value}</div>
-      ),
-      sortType: (a: any, b: any) => {
-        return new Date(b.values.Released).valueOf() - new Date(a.values.Released).valueOf();
-      }
-    },
-    {
-      Header: "Details",
-      accessor: d => {
-        return d.isbn;
-      },
-      Cell: (row: any) => (
-        <Button primary={true} label='View details' onClick={ () => getDetails(row.row.original) }></Button>
-      ),
-      disableFilters: true,
-      disableSortBy: true
-    }
-  ],
-  []);
 
   return (
-    // apply the table props
     <>
       
       <BookDialog isOpen={ modalIsOpen } setIsOpen={ setModalIsOpen } modalTitle='Book details' closeButtonText='Close details' addToFavourites={ () => addToFavourites(selectedBook) }>
