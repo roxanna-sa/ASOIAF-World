@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
 
 interface DarkModeContextType {
   darkMode: boolean;
-  setDarkMode: any;
+  setDarkMode:Dispatch<SetStateAction<boolean>>;
 }
 
-export const DarkModeContext = createContext<DarkModeContextType>( { darkMode: false, setDarkMode: null } );
+export const DarkModeContext = createContext<DarkModeContextType>( { darkMode: false, setDarkMode: () => {}} );
 
 interface DarkModeProviderProps {
   children: ReactNode;
